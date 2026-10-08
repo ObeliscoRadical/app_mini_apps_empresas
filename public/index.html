@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LusaApp Builder — Plataforma SaaS para PMEs Portuguesas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 256px;
+            background-color: #0f172a;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+        }
+        
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4ade80, #ef4444);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .logo-text h1 {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .nav {
+            flex: 1;
+            padding: 16px 12px;
+            overflow-y: auto;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            color: #cbd5e1;
+        }
+        
+        .nav-item:hover {
+            background-color: #1e293b;
+            color: white;
+        }
+        
+        .nav-item.active {
+            background-color: rgba(22, 163, 74, 0.2);
+            color: #4ade80;
+            border: 1px solid rgba(22, 163, 74, 0.3);
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 256px;
+            flex: 1;
+        }
+        
+        .header {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        
+        .header h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .content {
+            padding: 24px;
+        }
+        
+        /* Dashboard */
+        .welcome-banner {
+            background: linear-gradient(to right, #16a34a, #047857);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+        }
+        
+        .welcome-banner h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .welcome-banner p {
+            color: #bbf7d0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            transition: box-shadow 0.2s;
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
+        .stat-change.positive {
+            color: #22c55e;
+        }
+        
+        .stat-change.negative {
+            color: #ef4444;
+        }
+        
+        /* Promotions */
+        .promotion-card {
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        
+        .promotion-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .promotion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        
+        .promotion-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .type-promocao {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        
+        .type-noticia {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .type-evento {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+        
+        .promotion-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .promotion-description {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        
+        .promotion-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        /* Loyalty Card */
+        .loyalty-card {
+            width: 288px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin: 24px auto;
+        }
+        
+        .loyalty-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .loyalty-header p:first-child {
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+        
+        .loyalty-header p:last-child {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .stamps-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .stamp {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .stamp.filled {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #ea580c;
+        }
+        
+        .stamp.empty {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .loyalty-footer {
+            text-align: center;
+        }
+        
+        .loyalty-footer p:first-child {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .loyalty-footer p:last-child {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        /* Schema */
+        .code-block {
+            background-color: #0f172a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            padding: 8px 16px;
+            background-color: #1e293b;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .code-header span {
+            font-size: 12px;
+            font-family: monospace;
+            color: #94a3b8;
+        }
+        
+        .code-content {
+            padding: 16px;
+            overflow-x: auto;
+        }
+        
+        .code-content pre {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #4ade80;
+            white-space: pre;
+        }
+        
+        /* Customers Table */
+        .table-container {
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background-color 0.2s;
+        }
+        
+        tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        td {
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+        
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .customer-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #4ade80, #10b981);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .customer-name {
+            font-weight: 500;
+            color: #0f172a;
+        }
+        
+        .customer-email {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .stamps-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-content: center;
+        }
+        
+        .star-icon {
+            color: #eab308;
+            font-size: 14px;
+        }
+        
+        /* Page Sections */
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #16a34a;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #15803d;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .info-box.rgpd {
+            background-color: #fef3c7;
+            border: 1px solid #fde68a;
+        }
+        
+        .info-box.rgpd p:first-child {
+            font-size: 14px;
+            font-weight: 500;
+            color: #92400e;
+        }
+        
+        .info-box.rgpd p:last-child {
+            font-size: 12px;
+            color: #b45309;
+            margin-top: 4px;
+        }
+        
+        .info-box.security {
+            background-color: #dbeafe;
+            border: 1px solid #bfdbfe;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .info-box.security p:first-child {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e40af;
+        }
+        
+        .info-box.security p:last-child {
+            font-size: 12px;
+            color: #1e3a8a;
+            margin-top: 4px;
+        }
+        
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+        }
+        
+        .card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .card-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .card-item-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .card-item-value {
+            font-weight: bold;
+            color: #0f172a;
+        }
+        
+        /* Tech Stack */
+        .tech-section {
+            margin-bottom: 16px;
+        }
+        
+        .tech-section h5 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .tech-section.blue h5 {
+            color: #1e40af;
+        }
+        
+        .tech-section.green h5 {
+            color: #15803d;
+        }
+        
+        .tech-section.purple h5 {
+            color: #6b21a8;
+        }
+        
+        .tech-section.orange h5 {
+            color: #c2410c;
+        }
+        
+        .tech-section ul {
+            list-style: none;
+            font-size: 12px;
+            color: #64748b;
+        }
+        
+        .tech-section ul li {
+            margin-bottom: 4px;
+        }
+        
+        /* File Tree */
+        .file-tree {
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .file-tree p {
+            margin: 0;
+        }
+        
+        .file-tree .indent-1 {
+            padding-left: 20px;
+        }
+        
+        .file-tree .indent-2 {
+            padding-left: 40px;
+        }
+        
+        .file-tree .indent-3 {
+            padding-left: 60px;
+        }
+        
+        .file-tree .comment {
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">LA</div>
+                    <div class="logo-text">
+                        <h1>LusaApp</h1>
+                        <p>Builder MVP</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="nav">
+                <div class="nav-item active" data-page="dashboard">
+                    📊 Painel Geral
+                </div>
+                <div class="nav-item" data-page="promotions">
+                    📢 Gestor de Promoções
+                </div>
+                <div class="nav-item" data-page="loyalty">
+                    ⭐ Fidelidade
+                </div>
+                <div class="nav-item" data-page="customers">
+                    👥 Clientes
+                </div>
+                <div class="nav-item" data-page="schema">
+                    🗄️ Schema BD (SQL)
+                </div>
+                <div class="nav-item" data-page="structure">
+                    📁 Estrutura Projeto
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <h2 id="page-title">Painel Geral</h2>
+                <p id="page-subtitle">Visão geral da sua app</p>
+            </header>
+            
+            <main class="content">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page-section active">
+                    <div class="welcome-banner">
+                        <h3>Bom dia, Pastelaria Minhota! 🥐</h3>
+                        <p>Tem 8 promoções ativas e 1.247 clientes na sua app. Excelente trabalho!</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #3b82f6;"></div>
+                            <div class="stat-value">1.247</div>
+                            <div class="stat-label">Clientes Ativos</div>
+                            <div class="stat-change positive">+12%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #22c55e;"></div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Promoções Ativas</div>
+                            <div class="stat-change positive">+3</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #a855f7;"></div>
+                            <div class="stat-value">3.891</div>
+                            <div class="stat-label">Selos Emitidos (Mês)</div>
+                            <div class="stat-change positive">+24%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #f97316;"></div>
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Taxa de Retenção</div>
+                            <div class="stat-change negative">-2%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Promotions Page -->
+                <div id="promotions" class="page-section">
+                    <div class="promotion-card">
+                        <div class="promotion-header">
+                            <div>
+                                <span class="promotion-type type-promocao">🏷️ Promoção</span>
+                                <span class="promotion-type" style="background-color: #d1fae5; color: #065f46; margin-left: 8px;">✓ Publicada</span>
+                            </div>
+                        </div>
+                        <div class="promotion-title">Bolo Rei Tradicional — 20% Desconto</div>
+                        <div class="promotion-description">Este Natal, celebre connosco! Bolo Rei feito à mão com frutos secos premium.</div>
+                        <div class="promotion-meta">
+                            <span>📅 Criado: 2024-12-01</span>
+                            <span>🏷️ Expira: 2024-12-31</span>
+                        </div>
+                    </div>
+                    
+                    <div class="promotion-card">
+                        <div class="promotion-header">
+                            <div>
+                                <span class="promotion-type type-noticia">📰 Notícia</span>
+                                <span class="promotion-type" style="background-color: #d1fae5; color: #065f46; margin-left: 8px;">✓ Publicada</span>
+                            </div>
+                        </div>
+                        <div class="promotion-title">Novos Pastéis de Nata Sem Glúten</div>
+                        <div class="promotion-description">Já experimentou os nossos novos pastéis de nata sem glúten? Receita artesanal.</div>
+                        <div class="promotion-meta">
+                            <span>📅 Criado: 2024-11-28</span>
+                        </div>
+                    </div>
+                    
+                    <div class="promotion-card">
+                        <div class="promotion-header">
+                            <div>
+                                <span class="promotion-type type-evento">📅 Evento</span>
+                                <span class="promotion-type" style="background-color: #f1f5f9; color: #64748b; margin-left: 8px;">Rascunho</span>
+                            </div>
+                        </div>
+                        <div class="promotion-title">Workshop de Confeitaria — Janeiro 2025</div>
+                        <div class="promotion-description">Aprenda a fazer os nossos famosos travesseiros de Sintra. Vagas limitadas!</div>
+                        <div class="promotion-meta">
+                            <span>📅 Criado: 2024-11-25</span>
+                            <span>🏷️ Expira: 2025-01-15</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Loyalty Page -->
+                <div id="loyalty" class="page-section">
+                    <div style="background: linear-gradient(to right, #9333ea, #4338ca); border-radius: 16px; padding: 24px; color: white; margin-bottom: 24px;">
+                        <h3 style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">⭐ Cartão de Fidelidade Digital</h3>
+                        <p style="color: #e9d5ff; margin-bottom: 16px;">Configure a regra de fidelidade que aparece na app dos seus clientes.</p>
+                        <div style="background-color: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px;">
+                            <p style="font-size: 14px; font-weight: 500; color: #e9d5ff;">Regra Atual:</p>
+                            <p style="font-size: 24px; font-weight: bold; margin-top: 4px;">Compra 9, ganha 1 grátis 🎉</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="card">
+                            <h4>⭐ Configuração dos Selos</h4>
+                            <div class="card-item">
+                                <span class="card-item-label">Selos por compra</span>
+                                <span class="card-item-value">1</span>
+                            </div>
+                            <div class="card-item">
+                                <span class="card-item-label">Selos necessários</span>
+                                <span class="card-item-value">9</span>
+                            </div>
+                            <div class="card-item">
+                                <span class="card-item-label">Recompensa</span>
+                                <span class="card-item-value" style="color: #9333ea;">1 Produto Grátis</span>
+                            </div>
+                            <div class="card-item">
+                                <span class="card-item-label">Validade</span>
+                                <span class="card-item-value">Sem expiração</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <h4>🎁 Estatísticas</h4>
+                            <div style="background-color: #f0fdf4; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                                <div style="font-size: 24px; font-weight: bold; color: #15803d;">342</div>
+                                <div style="font-size: 14px; color: #16a34a;">Recompensas resgatadas</div>
+                            </div>
+                            <div style="background-color: #eff6ff; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                                <div style="font-size: 24px; font-weight: bold; color: #1e40af;">67%</div>
+                                <div style="font-size: 14px; color: #2563eb;">Clientes que completaram</div>
+                            </div>
+                            <div style="background-color: #faf5ff; border-radius: 8px; padding: 12px;">
+                                <div style="font-size: 24px; font-weight: bold; color: #6b21a8;">4.2</div>
+                                <div style="font-size: 14px; color: #7c3aed;">Média de selos/cliente</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Pré-visualização do Cartão (App do Cliente)</h4>
+                        <div class="loyalty-card">
+                            <div class="loyalty-header">
+                                <p>Pastelaria Minhota</p>
+                                <p>Cartão de Fidelidade</p>
+                            </div>
+                            <div class="stamps-grid">
+                                <div class="stamp filled">⭐</div>
+                                <div class="stamp filled">⭐</div>
+                                <div class="stamp filled">⭐</div>
+                                <div class="stamp filled">⭐</div>
+                                <div class="stamp filled">⭐</div>
+                                <div class="stamp filled">⭐</div>
+                                <div class="stamp empty">○</div>
+                                <div class="stamp empty">○</div>
+                                <div class="stamp empty">○</div>
+                            </div>
+                            <div class="loyalty-footer">
+                                <p>6 de 9 selos</p>
+                                <p>Faltam 3 para a recompensa!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customers Page -->
+                <div id="customers" class="page-section">
+                    <div class="grid-3">
+                        <div class="card">
+                            <div style="font-size: 14px; color: #64748b;">Total de Clientes</div>
+                            <div style="font-size: 24px; font-weight: bold; color: #0f172a; margin-top: 4px;">1.247</div>
+                            <div style="font-size: 12px; color: #22c55e; margin-top: 4px;">+23 esta semana</div>
+                        </div>
+                        <div class="card">
+                            <div style="font-size: 14px; color: #64748b;">Clientes Ativos (30d)</div>
+                            <div style="font-size: 24px; font-weight: bold; color: #0f172a; margin-top: 4px;">892</div>
+                            <div style="font-size: 12px; color: #22c55e; margin-top: 4px;">71.5% do total</div>
+                        </div>
+                        <div class="card">
+                            <div style="font-size: 14px; color: #64748b;">Novos Registos (Mês)</div>
+                            <div style="font-size: 24px; font-weight: bold; color: #0f172a; margin-top: 4px;">156</div>
+                            <div style="font-size: 12px; color: #22c55e; margin-top: 4px;">+18% vs anterior</div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Contacto</th>
+                                    <th style="text-align: center;">Selos</th>
+                                    <th style="text-align: center;">Visitas</th>
+                                    <th>Última Visita</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">MS</div>
+                                            <div>
+                                                <div class="customer-name">Maria Silva</div>
+                                                <div class="customer-email">maria@email.pt</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+351 912 345 678</td>
+                                    <td style="text-align: center;">
+                                        <div class="stamps-badge">
+                                            <span class="star-icon">⭐</span>
+                                            <span>7/9</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center;">23</td>
+                                    <td>2024-12-10</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">JS</div>
+                                            <div>
+                                                <div class="customer-name">João Santos</div>
+                                                <div class="customer-email">joao@email.pt</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+351 923 456 789</td>
+                                    <td style="text-align: center;">
+                                        <div class="stamps-badge">
+                                            <span class="star-icon">⭐</span>
+                                            <span>3/9</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center;">12</td>
+                                    <td>2024-12-09</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="customer-info">
+                                            <div class="customer-avatar">AC</div>
+                                            <div>
+                                                <div class="customer-name">Ana Costa</div>
+                                                <div class="customer-email">ana@email.pt</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>+351 934 567 890</td>
+                                    <td style="text-align: center;">
+                                        <div class="stamps-badge">
+                                            <span class="star-icon">⭐</span>
+                                            <span>9/9</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center;">34</td>
+                                    <td>2024-12-10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="info-box rgpd">
+                        <p>🇵🇹 Conformidade RGPD</p>
+                        <p>Todos os dados pessoais são armazenados em conformidade com o RGPD. Consentimentos registados.</p>
+                    </div>
+                </div>
+                
+                <!-- Schema Page -->
+                <div id="schema" class="page-section">
+                    <div class="grid-3">
+                        <div class="card">
+                            <span style="font-size: 20px;">👤</span>
+                            <div style="font-size: 12px; font-family: monospace; font-weight: bold; color: #0f172a; margin-top: 4px;">profiles</div>
+                            <div style="font-size: 12px; color: #64748b;">Comerciantes</div>
+                        </div>
+                        <div class="card">
+                            <span style="font-size: 20px;">⚙️</span>
+                            <div style="font-size: 12px; font-family: monospace; font-weight: bold; color: #0f172a; margin-top: 4px;">apps_config</div>
+                            <div style="font-size: 12px; color: #64748b;">Config App</div>
+                        </div>
+                        <div class="card">
+                            <span style="font-size: 20px;">📢</span>
+                            <div style="font-size: 12px; font-family: monospace; font-weight: bold; color: #0f172a; margin-top: 4px;">posts</div>
+                            <div style="font-size: 12px; color: #64748b;">Promoções</div>
+                        </div>
+                        <div class="card">
+                            <span style="font-size: 20px;">🛒</span>
+                            <div style="font-size: 12px; font-family: monospace; font-weight: bold; color: #0f172a; margin-top: 4px;">customers</div>
+                            <div style="font-size: 12px; color: #64748b;">Clientes</div>
+                        </div>
+                        <div class="card">
+                            <span style="font-size: 20px;">⭐</span>
+                            <div style="font-size: 12px; font-family: monospace; font-weight: bold; color: #0f172a; margin-top: 4px;">loyalty_tx</div>
+                            <div style="font-size: 12px; color: #64748b;">Transações</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box security">
+                        <div>
+                            <p>🛡️ Row Level Security (RLS) Ativo</p>
+                            <p>Cada comerciante apenas acede aos seus próprios dados.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>schema.sql</span>
+                        </div>
+                        <div class="code-content">
+                            <pre>-- LusaApp Builder — Schema SQL (Supabase/PostgreSQL)
+
+CREATE TABLE public.profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  email TEXT NOT NULL UNIQUE,
+  business_name TEXT NOT NULL,
+  nif TEXT CHECK (nif ~ '^[0-9]{9}$'),
+  business_type TEXT CHECK (business_type IN ('restauracao','beleza','retalho','servicos')),
+  postal_code TEXT CHECK (postal_code ~ '^[0-9]{4}-[0-9]{3}$'),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE public.posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  merchant_id UUID REFERENCES public.profiles(id),
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  post_type TEXT CHECK (post_type IN ('promocao','noticia','evento')),
+  published BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE public.customers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  merchant_id UUID REFERENCES public.profiles(id),
+  phone TEXT, email TEXT,
+  loyalty_stamps INTEGER DEFAULT 0,
+  rgpd_consent BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Row Level Security
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "merchant_own_profile" ON public.profiles 
+  FOR SELECT USING (auth.uid() = id);</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Structure Page -->
+                <div id="structure" class="page-section">
+                    <div class="grid-3">
+                        <div class="card" style="background-color: #dbeafe; border-color: #bfdbfe;">
+                            <h4 style="color: #1e40af;">🌐 Dashboard</h4>
+                            <p style="font-size: 12px; color: #1e3a8a;">Next.js 14 + Tailwind + shadcn/ui</p>
+                        </div>
+                        <div class="card" style="background-color: #dcfce7; border-color: #bbf7d0;">
+                            <h4 style="color: #15803d;">📱 App Mobile</h4>
+                            <p style="font-size: 12px; color: #14532d;">React Native + Expo (iOS/Android)</p>
+                        </div>
+                        <div class="card" style="background-color: #f3e8ff; border-color: #e9d5ff;">
+                            <h4 style="color: #6b21a8;">🖥️ Backend</h4>
+                            <p style="font-size: 12px; color: #581c87;">Supabase (PostgreSQL + Auth + Storage)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="color: #1e40af; background-color: #dbeafe; padding: 12px; border-radius: 8px; margin: -20px -20px 20px -20px; border-bottom: 1px solid #bfdbfe;">📁 apps/web/ — Dashboard (Next.js 14)</h4>
+                        <div class="file-tree">
+                            <p>📁 app/</p>
+                            <p class="indent-1">📁 (auth)/</p>
+                            <p class="indent-2">📄 login/page.tsx</p>
+                            <p class="indent-2">📄 register/page.tsx</p>
+                            <p class="indent-1">📁 (dashboard)/</p>
+                            <p class="indent-2">📄 layout.tsx <span class="comment">— Sidebar + Header</span></p>
+                            <p class="indent-2">📄 page.tsx <span class="comment">— Painel Geral</span></p>
+                            <p class="indent-2">📁 promocoes/page.tsx <span class="comment">— Gestor ★</span></p>
+                            <p>📁 components/</p>
+                            <p class="indent-1">📄 promotion-form.tsx</p>
+                            <p class="indent-1">📄 loyalty-config.tsx</p>
+                            <p>📁 lib/supabase/</p>
+                            <p class="indent-1">📄 client.ts <span class="comment">— Browser client</span></p>
+                            <p class="indent-1">📄 server.ts <span class="comment">— Server client</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4 style="color: #15803d; background-color: #dcfce7; padding: 12px; border-radius: 8px; margin: -20px -20px 20px -20px; border-bottom: 1px solid #bbf7d0;">📁 apps/mobile/ — App Cliente (Expo)</h4>
+                        <div class="file-tree">
+                            <p>📁 app/ <span class="comment">— Expo Router</span></p>
+                            <p class="indent-1">📄 index.tsx <span class="comment">— Feed Promoções</span></p>
+                            <p class="indent-1">📄 login.tsx</p>
+                            <p class="indent-1">📄 fidelidade.tsx <span class="comment">— Cartão + QR</span></p>
+                            <p>📁 components/</p>
+                            <p class="indent-1">📄 PromotionCard.tsx</p>
+                            <p class="indent-1">📄 LoyaltyCard.tsx</p>
+                            <p class="indent-1">📄 QRScanner.tsx</p>
+                            <p>📁 services/</p>
+                            <p class="indent-1">📄 supabase.ts</p>
+                            <p class="indent-1">📄 payments.ts <span class="comment">— Stripe/MB Way</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🛠️ Stack Tecnológica</h4>
+                        <div class="grid-2">
+                            <div class="tech-section blue">
+                                <h5>Frontend</h5>
+                                <ul>
+                                    <li>• Next.js 14 (App Router)</li>
+                                    <li>• React 18 + TypeScript</li>
+                                    <li>• Tailwind CSS + shadcn/ui</li>
+                                    <li>• TanStack Query</li>
+                                </ul>
+                            </div>
+                            <div class="tech-section green">
+                                <h5>Mobile</h5>
+                                <ul>
+                                    <li>• React Native + Expo SDK 50+</li>
+                                    <li>• Expo Router</li>
+                                    <li>• Push Notifications</li>
+                                    <li>• expo-camera (QR)</li>
+                                </ul>
+                            </div>
+                            <div class="tech-section purple">
+                                <h5>Backend</h5>
+                                <ul>
+                                    <li>• Supabase (PostgreSQL)</li>
+                                    <li>• Supabase Auth + Storage</li>
+                                    <li>• Edge Functions (Deno)</li>
+                                    <li>• Vercel + EAS Build</li>
+                                </ul>
+                            </div>
+                            <div class="tech-section orange">
+                                <h5>Portugal</h5>
+                                <ul>
+                                    <li>• Stripe + IfthenPay (MB Way)</li>
+                                    <li>• WhatsApp Business API</li>
+                                    <li>• RGPD nativo</li>
+                                    <li>• NIF + Código Postal PT</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // Navigation
+        const navItems = document.querySelectorAll('.nav-item');
+        const pageSections = document.querySelectorAll('.page-section');
+        const pageTitle = document.getElementById('page-title');
+        const pageSubtitle = document.getElementById('page-subtitle');
+        
+        const pageConfig = {
+            dashboard: { title: 'Painel Geral', subtitle: 'Visão geral da sua app' },
+            promotions: { title: 'Gestor de Promoções', subtitle: 'Crie e publique promoções para a app dos seus clientes' },
+            loyalty: { title: 'Cartão de Fidelidade', subtitle: 'Configure o programa de fidelidade digital' },
+            customers: { title: 'Clientes', subtitle: 'Gerir a base de clientes da sua app' },
+            schema: { title: 'PASSO 1 — Schema da Base de Dados', subtitle: 'SQL completo para Supabase com RLS' },
+            structure: { title: 'PASSO 2 — Estrutura do Projeto', subtitle: 'Arquitetura monorepo Next.js + Expo' },
+        };
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const page = item.getAttribute('data-page');
+                
+                // Update nav
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Update page
+                pageSections.forEach(section => section.classList.remove('active'));
+                document.getElementById(page).classList.add('active');
+                
+                // Update header
+                pageTitle.textContent = pageConfig[page].title;
+                pageSubtitle.textContent = pageConfig[page].subtitle;
+            });
+        });
+    </script>
+</body>
+</html>
